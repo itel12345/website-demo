@@ -1281,6 +1281,26 @@ h1 {
 .footer-form button:hover {
     background-color: #0056b3;
 } 
+   
+/* END OF THE CODES 😁🔥*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* General Styles */
 * {
     margin: 0;
@@ -1331,19 +1351,22 @@ body {
 /* Responsive Grid Layouts */
 .designn, .design, .star {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 20px;
+    padding: 20px;
 }
 
 /* Responsive Images */
 img {
     max-width: 100%;
     height: auto;
+    display: block;
 }
 
 .video-container {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
 }
 
 .video-container video {
@@ -1352,19 +1375,31 @@ img {
 }
 
 /* Responsive Text & Buttons */
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 768px) {
     h1 {
-        font-size: 24px;
+        font-size: 22px;
+        text-align: center;
     }
     
     p {
         font-size: 14px;
+        text-align: center;
+        padding: 0 10px;
     }
 
     button {
         width: 100%;
-        padding: 10px;
+        padding: 12px;
+        font-size: 16px;
     }
 }
 
-/* END OF THE CODES 😁🔥*/
+@media screen and (max-width: 480px) {
+    h1 {
+        font-size: 20px;
+    }
+    
+    p {
+        font-size: 12px;
+    }
+}
