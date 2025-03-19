@@ -1281,4 +1281,90 @@ h1 {
 .footer-form button:hover {
     background-color: #0056b3;
 } 
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    overflow-x: hidden;
+}
+
+/* Responsive Navigation */
+.pages {
+    display: flex;
+    gap: 20px;
+}
+
+.logo {
+    display: none;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+    .pages {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        background: #333;
+        text-align: center;
+        padding: 10px 0;
+    }
+    
+    .pages a {
+        color: white;
+        display: block;
+        padding: 10px;
+    }
+
+    .logo {
+        display: block;
+    }
+}
+
+/* Responsive Grid Layouts */
+.designn, .design, .star {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+/* Responsive Images */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.video-container {
+    display: flex;
+    justify-content: center;
+}
+
+.video-container video {
+    width: 100%;
+    max-width: 600px;
+}
+
+/* Responsive Text & Buttons */
+@media screen and (max-width: 600px) {
+    h1 {
+        font-size: 24px;
+    }
+    
+    p {
+        font-size: 14px;
+    }
+
+    button {
+        width: 100%;
+        padding: 10px;
+    }
+}
+
 /* END OF THE CODES 😁🔥*/
