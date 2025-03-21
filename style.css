@@ -1,22 +1,35 @@
-        body { margin: 0; overflow: hidden; background-color: black; }
-        canvas { display: block; }
+#startButton {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: clamp(16px, 4vw, 30px); /* Responsive font size */
+    padding: 10px 20px;
+    background: cyan;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
 
-        /* On-screen Controls */
-        .controls {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 20px;
-        }
+#startButton:hover {
+    background: lightblue;
+}
 
-        .control-btn {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: none;
-            padding: 15px 20px;
-            font-size: 20px;
-            cursor: pointer;
-            border-radius: 10px;
-        }
+#left, #right {
+    position: fixed;
+    bottom: 10%;
+    width: 80px;
+    height: 80px;
+    background: cyan;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+#left {
+    left: 10%;
+}
+
+#right {
+    right: 10%;
+}
