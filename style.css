@@ -1,89 +1,22 @@
-html, body {
-    touch-action: manipulation;
-}
-body {
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background-color: black;
-    color: white;
-    font-family: Arial, sans-serif;
-}
+        body { margin: 0; overflow: hidden; background-color: black; }
+        canvas { display: block; }
 
-#game-container {
-    text-align: center;
-}
+        /* On-screen Controls */
+        .controls {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+        }
 
-#startGame {
-    padding: 10px 20px;
-    font-size: 18px;
-    margin-bottom: 20px;
-    cursor: pointer;
-    background-color: cyan;
-    border: none;
-    border-radius: 5px;
-}
-
-#canvas-container {
-    width: 800px;
-    height: 600px;
-    border: 2px solid white;
-}
-body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background-color: black;
-    color: white;
-    margin: 0;
-    padding: 0;
-}
-
-#game-container {
-    margin: 20px auto;
-    max-width: 800px;
-}
-
-button {
-    padding: 10px 20px;
-    font-size: 18px;
-    cursor: pointer;
-    background: cyan;
-    border: none;
-    color: black;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-#instructions {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 10px;
-    border-radius: 5px;
-}
-
-.goal {
-    color: yellow;
-    font-weight: bold;
-}
-
-.danger {
-    color: red;
-    font-weight: bold;
-}
-
-#mobile-controls {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 10px;
-}
-
-#mobile-controls button {
-    padding: 15px;
-    font-size: 24px;
-    background: cyan;
-    border: none;
-    border-radius: 5px;
-}
+        .control-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            font-size: 20px;
+            cursor: pointer;
+            border-radius: 10px;
+        }
