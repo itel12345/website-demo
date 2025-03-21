@@ -48,7 +48,7 @@ function init() {
 
    // Game Over Text
 gameOverText = document.createElement("div");
-gameOverText.innerHTML = "💥 Crash! Game Over.";
+gameOverText.innerHTML = "💥 You crashed! Game over dude. <br> <p style='text-align: center; margin-top: 10px;'>Try again.</p>";
 gameOverText.style.position = "fixed";
 gameOverText.style.top = "50%";
 gameOverText.style.left = "50%";
