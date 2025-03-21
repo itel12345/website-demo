@@ -3,41 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dimension Shift - 3D Puzzle Game</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Hyper Drift - Futuristic Racing</title>
+       
 </head>
 <body>
 
-    <div id="game-container">
-        <h1>Dimension Shift</h1>
-        
-        <!-- Instructions -->
-        <div id="instructions">
-            <h2>How to Play</h2>
-            <p>🎮 Use the <strong>Arrow Keys</strong> to move your cube.</p>
-            <p>🏆 Reach the <span class="goal">yellow sphere</span> to win.</p>
-            <p>🚧 Avoid touching <span class="danger">red obstacles</span> or you lose.</p>
-        </div>
-
-        <button id="start-btn">Click to Start</button>
-        <div id="canvas-container"></div>
-        <p id="status"></p>
-
-        <!-- Mobile Controls -->
-        <div id="mobile-controls">
-            <button id="left-btn">⬅️</button>
-            <button id="up-btn">⬆️</button>
-            <button id="down-btn">⬇️</button>
-            <button id="right-btn">➡️</button>
-        </div>
+    <!-- On-screen controls for mobile -->
+    <div class="controls">
+        <button class="control-btn" id="left">⬅</button>
+        <button class="control-btn" id="right">➡</button>
     </div>
 
-    <!-- Load Three.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-
-    <!-- Load Game Logic -->
-    <script type="module" src="game.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="game.js"></script>
 
 </body>
 </html>
