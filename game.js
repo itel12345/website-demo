@@ -7,36 +7,6 @@ let distance = 0;
 let level = 1;
 let levelText;
 
-// Create Name Input & Button
-const gameNameContainer = document.createElement("div");
-gameNameContainer.id = "gameNameContainer";
-gameNameContainer.innerHTML = `
-    <label for="gameNameInput" style="color:white; font-size:18px; display:block; margin-bottom:5px;">Enter Your Name</label>
-    <input type="text" id="gameNameInput" style="padding:10px; font-size:20px; width: 200px; text-align:center; border-radius:5px; border:2px solid #0ff;">
-    <button id="readyGoButton" style="display:none; margin-top:10px; padding:10px; font-size:20px; background:#0ff; color:black; border:none; border-radius:5px; cursor:pointer; margin-left:10px;">Ready Go!</button>
-`;
-gameNameContainer.style.position = "fixed";
-gameNameContainer.style.top = "10px";
-gameNameContainer.style.left = "50%";
-gameNameContainer.style.transform = "translateX(-50%)";
-gameNameContainer.style.textAlign = "center";
-gameNameContainer.style.color = "white";
-gameNameContainer.style.background = "rgba(0, 0, 0, 0.8)";
-gameNameContainer.style.padding = "15px";
-gameNameContainer.style.borderRadius = "10px";
-document.body.appendChild(gameNameContainer);
-
-document.getElementById("gameNameInput").addEventListener("input", function() {
-    document.getElementById("readyGoButton").style.display = this.value.trim() ? "inline-block" : "none";
-});
-
-document.getElementById("readyGoButton").addEventListener("click", () => {
-    gameNameContainer.style.display = "none"; // Hide input and button
-    gameStarted = true;
-    for (let i = 0; i < 5; i++) createObstacle(i * -15);
-    animate();
-});
-
 // Initialize Three.js Scene
 function init() {
     scene = new THREE.Scene();
@@ -95,14 +65,14 @@ function init() {
     window.addEventListener("resize", onWindowResize);
 }
 
-// Create obstacles
+// Create obstacles but keep them hidden
 function createObstacle(zPos = -Math.random() * 50 - 10) {
     const obstacleGeometry = new THREE.BoxGeometry(2, 2, 2);
     const obstacleMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000 });
     let obstacle = new THREE.Mesh(obstacleGeometry, obstacleMaterial);
 
     obstacle.position.set((Math.random() - 0.5) * 8, 1, zPos);
-    obstacle.visible = false;
+    obstacle.visible = false; // Hide obstacles initially
     scene.add(obstacle);
     obstacles.push(obstacle);
 }
@@ -141,8 +111,11 @@ function updateSpeed() {
         level = newLevel;
         showLevelUpMessage(level);
     }
+
+    document.getElementById("speed").innerText = `Level ${level} | ${Math.floor(distance)} km/h`;
 }
 
+// Show level-up message for 2 seconds
 function showLevelUpMessage(level) {
     levelText.innerHTML = `🚀 LEVEL ${level} UNLOCKED!`;
     levelText.style.display = "block";
@@ -160,6 +133,7 @@ function animate() {
     distance += speed;
     updateSpeed();
 
+    // Show and move obstacles only when game starts
     obstacles.forEach((obstacle) => {
         obstacle.visible = true;
         obstacle.position.z += speed;
@@ -169,6 +143,7 @@ function animate() {
             obstacle.position.x = (Math.random() - 0.5) * 8;
         }
 
+        // Collision detection
         if (
             Math.abs(car.position.x - obstacle.position.x) < 1.5 &&
             Math.abs(car.position.z - obstacle.position.z) < 2
@@ -185,45 +160,17 @@ function gameOver() {
     gameOverText.style.display = "block";
     console.log("Game Over! Distance:", Math.floor(distance));
 }
-// Create left and right arrow buttons
-const leftButton = document.createElement("button");
-leftButton.innerHTML = "⬅️";
-leftButton.style.position = "fixed";
-leftButton.style.bottom = "10%";
-leftButton.style.left = "5%";
-leftButton.style.fontSize = "clamp(40px, 8vw, 80px)"; // Big and responsive
-leftButton.style.padding = "15px";
-leftButton.style.borderRadius = "50%";
-leftButton.style.background = "#0ff";
-leftButton.style.border = "none";
-leftButton.style.cursor = "pointer";
-leftButton.style.boxShadow = "0 0 15px #0ff";
-leftButton.style.width = "clamp(80px, 15vw, 120px)"; // Adjusts with screen size
-leftButton.style.height = "clamp(80px, 15vw, 120px)"; // Same width & height for circle shape
 
-const rightButton = document.createElement("button");
-rightButton.innerHTML = "➡️";
-rightButton.style.position = "fixed";
-rightButton.style.bottom = "10%";
-rightButton.style.right = "5%";
-rightButton.style.fontSize = "clamp(40px, 8vw, 80px)"; // Big and responsive
-rightButton.style.padding = "15px";
-rightButton.style.borderRadius = "50%";
-rightButton.style.background = "#0ff";
-rightButton.style.border = "none";
-rightButton.style.cursor = "pointer";
-rightButton.style.boxShadow = "0 0 15px #0ff";
-rightButton.style.width = "clamp(80px, 15vw, 120px)";
-rightButton.style.height = "clamp(80px, 15vw, 120px)";
+document.getElementById("startButton").addEventListener("click", () => {
+    document.getElementById("startButton").style.display = "none";
+    gameStarted = true;
 
-document.body.appendChild(leftButton);
-document.body.appendChild(rightButton);
+    // Create obstacles only after game starts
+    for (let i = 0; i < 5; i++) {
+        createObstacle(i * -15);
+    }
 
-// Mobile-friendly event listeners
-leftButton.addEventListener("touchstart", () => moveCar(-1));
-rightButton.addEventListener("touchstart", () => moveCar(1));
-
-// Prevent accidental scrolling on mobile
-document.body.style.overflow = "hidden";
+    animate();
+});
 
 init();
