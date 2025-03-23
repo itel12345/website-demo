@@ -6,6 +6,9 @@
     justify-content: center;
     gap: 30px;
 }
+html, body {
+    touch-action: manipulation;  /* 🔥 Stops zooming on double-tap */
+}
 
 .controls button {
     background-color: #00ffff;
