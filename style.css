@@ -6,14 +6,6 @@
     justify-content: center;
     gap: 30px;
 }
-html, body {
-    touch-action: none; /* 🔥 Completely disables zooming and gestures */
-    user-select: none;  /* 🔒 Prevents accidental text selection */
-    -webkit-user-select: none; /* For Safari */
-    -ms-touch-action: none; /* For older mobile browsers */
-}
-
-
 .controls button {
     background-color: #00ffff;
     border: none;
