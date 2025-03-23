@@ -1,60 +1,36 @@
-body {
-    margin: 0;
-    overflow: hidden;
-    background: black;
-}
-
-canvas {
-    display: block;
-}
-
-/* Neon Glow Effect */
-.neon {
-    text-shadow: 0 0 5px #0ff, 0 0 10px #0ff, 0 0 20px #0ff;
-}
-
-/* UI Enhancements */
-#hud {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    color: #0ff;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 20px;
-}
-
-#startButton {
+.controls {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: clamp(16px, 4vw, 30px);
+    bottom: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.controls button {
+    background-color: #00ffff;
+    border: none;
+    color: black;
+    font-size: 8vw;  /* 🔥 Super big on mobile */
+    font-weight: bold;
     padding: 10px 20px;
-    background: cyan;
-    border: none;
+    border-radius: 10px;
     cursor: pointer;
-    transition: 0.3s;
+    box-shadow: 0 0 10px #00ffff;
 }
 
-#startButton:hover {
-    background: lightblue;
+.controls button:active {
+    transform: scale(0.9);
 }
 
-#left, #right {
-    position: fixed;
-    bottom: 10%;
-    width: 80px;
-    height: 80px;
-    background: cyan;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
+@media (min-width: 600px) {
+    .controls button {
+        font-size: 5vw; /* 🔥 Adjust for tablets */
+    }
 }
 
-#left {
-    left: 10%;
-}
-
-#right {
-    right: 10%;
+@media (min-width: 1024px) {
+    .controls button {
+        font-size: 3vw; /* 🔥 Adjust for larger screens */
+    }
 }
