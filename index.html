@@ -17,8 +17,19 @@
         <button class="control-btn big-btn" id="right">➡</button>
     </div>
 
+    <canvas id="gameCanvas"></canvas>
+    <div id="hud" class="neon">Speed: <span id="speed">0</span> km/h</div>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="game.js"></script>
-
+    <script>
+        document.getElementById("left").addEventListener("click", () => moveCar(-1));
+        document.getElementById("right").addEventListener("click", () => moveCar(1));
+        
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "ArrowLeft") moveCar(-1);
+            if (event.key === "ArrowRight") moveCar(1);
+        });
+    </script>
 </body>
 </html>
