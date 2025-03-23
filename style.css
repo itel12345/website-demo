@@ -1,3 +1,63 @@
+body {
+    margin: 0;
+    overflow: hidden;
+    background: black;
+}
+
+canvas {
+    display: block;
+}
+
+/* Neon Glow Effect */
+.neon {
+    text-shadow: 0 0 5px #0ff, 0 0 10px #0ff, 0 0 20px #0ff;
+}
+
+/* UI Enhancements */
+#hud {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: #0ff;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 20px;
+}
+
+#startButton {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: clamp(16px, 4vw, 30px);
+    padding: 10px 20px;
+    background: cyan;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#startButton:hover {
+    background: lightblue;
+}
+
+#left, #right {
+    position: fixed;
+    bottom: 10%;
+    width: 80px;
+    height: 80px;
+    background: cyan;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+#left {
+    left: 10%;
+}
+
+#right {
+    right: 10%;
+}
 .controls {
     position: fixed;
     bottom: 10px;
@@ -6,11 +66,12 @@
     justify-content: center;
     gap: 30px;
 }
+
 .controls button {
     background-color: #00ffff;
     border: none;
     color: black;
-    font-size: 10vw;  /* 🔥 Super big on mobile */
+    font-size: 8vw;  /* 🔥 Super big on mobile */
     font-weight: bold;
     padding: 10px 20px;
     border-radius: 10px;
@@ -32,4 +93,13 @@
     .controls button {
         font-size: 3vw; /* 🔥 Adjust for larger screens */
     }
+}
+html, body {
+    touch-action: manipulation;  /* 🔥 Stops zooming on double-tap */
+}
+html, body {
+    touch-action: none; /* 🔥 Completely disables zooming and gestures */
+    user-select: none;  /* 🔒 Prevents accidental text selection */
+    -webkit-user-select: none; /* For Safari */
+    -ms-touch-action: none; /* For older mobile browsers */
 }
