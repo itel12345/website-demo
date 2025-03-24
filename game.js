@@ -1,11 +1,14 @@
 let scene, camera, renderer, car, track;
-let speed = 0.25; // Start speed for level 1
+let speed = 0.25; // Initial speed
 let obstacles = [];
+let bullets = [];
 let gameStarted = false;
 let gameOverText;
+let winText;
 let distance = 0;
 let level = 1;
 let levelText;
+let maxDistance = 1200; // Winning distance
 
 // Initialize Three.js Scene
 function init() {
@@ -40,82 +43,104 @@ function init() {
     pointLight.position.set(0, 10, 10);
     scene.add(pointLight);
 
-    gameOverText = document.createElement("div");
-    gameOverText.innerHTML = "💥 You crashed! Game over dude. <br> <p style='text-align: center; margin-top: 10px;'>Try again.</p>";
-    gameOverText.style.position = "fixed";
-    gameOverText.style.top = "50%";
-    gameOverText.style.left = "50%";
-    gameOverText.style.transform = "translate(-50%, -50%)";
-    gameOverText.style.fontSize = "clamp(20px, 5vw, 40px)";
-    gameOverText.style.color = "white";
-    gameOverText.style.display = "none";
-    document.body.appendChild(gameOverText);
-
-    levelText = document.createElement("div");
-    levelText.style.position = "fixed";
-    levelText.style.top = "40%";
-    levelText.style.left = "50%";
-    levelText.style.transform = "translate(-50%, -50%)";
-    levelText.style.fontSize = "clamp(20px, 5vw, 50px)";
-    levelText.style.color = "#0ff";
-    levelText.style.textShadow = "0 0 10px #0ff, 0 0 20px #0ff";
-    levelText.style.display = "none";
-    document.body.appendChild(levelText);
+    gameOverText = createTextElement("💥 You crashed! Game Over.");
+    winText = createTextElement("🎉 Well Done! You Won!");
+    levelText = createTextElement("", "#0ff");
 
     window.addEventListener("resize", onWindowResize);
 }
 
-// Create obstacles but keep them hidden
+// Function to create text elements
+function createTextElement(text, color = "white") {
+    let div = document.createElement("div");
+    div.innerHTML = text;
+    div.style.position = "fixed";
+    div.style.top = "50%";
+    div.style.left = "50%";
+    div.style.transform = "translate(-50%, -50%)";
+    div.style.fontSize = "clamp(20px, 5vw, 40px)";
+    div.style.color = color;
+    div.style.textShadow = "0 0 10px " + color + ", 0 0 20px " + color;
+    div.style.display = "none";
+    document.body.appendChild(div);
+    return div;
+}
+
+// Create obstacles (Red Cubes)
 function createObstacle(zPos = -Math.random() * 50 - 10) {
     const obstacleGeometry = new THREE.BoxGeometry(2, 2, 2);
     const obstacleMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000 });
     let obstacle = new THREE.Mesh(obstacleGeometry, obstacleMaterial);
 
     obstacle.position.set((Math.random() - 0.5) * 8, 1, zPos);
-    obstacle.visible = false; // Hide obstacles initially
     scene.add(obstacle);
     obstacles.push(obstacle);
 }
 
+// Create bullet when shooting (W Key)
+function shootBullet() {
+    const bulletGeometry = new THREE.SphereGeometry(0.3, 8, 8);
+    const bulletMaterial = new THREE.MeshStandardMaterial({ color: 0xffff00 });
+    let bullet = new THREE.Mesh(bulletGeometry, bulletMaterial);
+
+    bullet.position.set(car.position.x, 1, car.position.z - 1);
+    scene.add(bullet);
+    bullets.push(bullet);
+}
+
+// Window Resize
 function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
+// Move Car Left/Right
 function moveCar(direction) {
     car.position.x = Math.max(-4, Math.min(4, car.position.x + direction * 1));
 }
 
+// Update Speed & Levels
 function updateSpeed() {
     let newLevel = level;
+    let newColor;
 
-    if (distance >= 1200) {  
+    if (distance >= maxDistance) {
+        winGame();
+        return;
+    } else if (distance >= 900) {  
         newLevel = 5;  
         speed = 0.9;  
-    } else if (distance >= 900) {  
+        newColor = 0x000000;
+    } else if (distance >= 600) {  
         newLevel = 4;  
         speed = 0.6;  
-    } else if (distance >= 600) {  
+        newColor = 0xFFA500;
+    } else if (distance >= 300) {  
         newLevel = 3;  
         speed = 0.4;  
-    } else if (distance >= 300) {  
+        newColor = 0x800080;
+    } else if (distance >= 150) {  
         newLevel = 2;  
         speed = 0.3;  
+        newColor = 0xFFFF99;
     } else {  
         newLevel = 1;  
         speed = 0.25;
+        newColor = 0x00ffff;
     }
 
     if (newLevel !== level) {
         level = newLevel;
         showLevelUpMessage(level);
+        car.material.color.set(newColor);
+        car.material.emissive.set(newColor);
     }
 
     document.getElementById("speed").innerText = `Level ${level} | ${Math.floor(distance)} km/h`;
 }
 
-// Show level-up message for 2 seconds
+// Show Level-Up Message
 function showLevelUpMessage(level) {
     levelText.innerHTML = `🚀 LEVEL ${level} UNLOCKED!`;
     levelText.style.display = "block";
@@ -125,6 +150,7 @@ function showLevelUpMessage(level) {
     }, 2000);
 }
 
+// Animate Game
 function animate() {
     if (!gameStarted) return;
 
@@ -133,9 +159,15 @@ function animate() {
     distance += speed;
     updateSpeed();
 
-    // Show and move obstacles only when game starts
-    obstacles.forEach((obstacle) => {
-        obstacle.visible = true;
+    bullets.forEach((bullet, index) => {
+        bullet.position.z -= 1.5;
+        if (bullet.position.z < -50) {
+            scene.remove(bullet);
+            bullets.splice(index, 1);
+        }
+    });
+
+    obstacles.forEach((obstacle, index) => {
         obstacle.position.z += speed;
 
         if (obstacle.position.z > 10) {
@@ -143,11 +175,17 @@ function animate() {
             obstacle.position.x = (Math.random() - 0.5) * 8;
         }
 
-        // Collision detection
-        if (
-            Math.abs(car.position.x - obstacle.position.x) < 1.5 &&
-            Math.abs(car.position.z - obstacle.position.z) < 2
-        ) {
+        bullets.forEach((bullet, bulletIndex) => {
+            if (bullet.position.distanceTo(obstacle.position) < 1.5) {
+                scene.remove(obstacle);
+                obstacles.splice(index, 1);
+                scene.remove(bullet);
+                bullets.splice(bulletIndex, 1);
+                createObstacle(); // Keep spawning new ones
+            }
+        });
+
+        if (Math.abs(car.position.x - obstacle.position.x) < 1.5 && Math.abs(car.position.z - obstacle.position.z) < 2) {
             gameOver();
         }
     });
@@ -155,17 +193,25 @@ function animate() {
     renderer.render(scene, camera);
 }
 
+// Game Over
 function gameOver() {
     gameStarted = false;
     gameOverText.style.display = "block";
     console.log("Game Over! Distance:", Math.floor(distance));
 }
 
+// Win Game
+function winGame() {
+    gameStarted = false;
+    winText.style.display = "block";
+    console.log("You Won! Final Distance:", Math.floor(distance));
+}
+
+// Start Game
 document.getElementById("startButton").addEventListener("click", () => {
     document.getElementById("startButton").style.display = "none";
     gameStarted = true;
 
-    // Create obstacles only after game starts
     for (let i = 0; i < 5; i++) {
         createObstacle(i * -15);
     }
@@ -173,4 +219,28 @@ document.getElementById("startButton").addEventListener("click", () => {
     animate();
 });
 
+// Controls
+document.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowLeft") moveCar(-1);
+    if (event.key === "ArrowRight") moveCar(1);
+    if (event.key === "w" || event.key === "W") shootBullet();
+});
+let maxBullets = 5; // User can shoot only 5 bullets
+let bulletsFired = 0; // Track the number of bullets fired
+
+function shootBullet() {
+    if (bulletsFired >= maxBullets) return; // Stop shooting if out of bullets
+
+    const bulletGeometry = new THREE.SphereGeometry(0.3, 8, 8);
+    const bulletMaterial = new THREE.MeshStandardMaterial({ color: 0xffff00 });
+    let bullet = new THREE.Mesh(bulletGeometry, bulletMaterial);
+
+    bullet.position.set(car.position.x, 1, car.position.z - 1);
+    scene.add(bullet);
+    bullets.push(bullet);
+    
+    bulletsFired++; // Increase the bullet count
+}
+
 init();
+
