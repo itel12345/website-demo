@@ -384,4 +384,48 @@ canvas {
     0% { opacity: 0; }
     100% { opacity: 1; }
 }
+@media (max-width: 768px) {
+    #hud {
+        font-size: 14px;
+    }
+    
+    .shoot-instruction {
+        font-size: 14px;
+        top: 80%;
+    }
 
+    .bullet-info {
+        font-size: 12px;
+        top: 85%;
+    }
+    
+    .controls {
+        bottom: 5%;
+    }
+    
+    .control-btn {
+        font-size: 30px;
+        padding: 8px 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .shoot-instruction {
+        font-size: 12px;
+        top: 75%;
+    }
+
+    .bullet-info {
+        font-size: 10px;
+        top: 80%;
+    }
+
+    .controls {
+        bottom: 3%;
+    }
+    
+    .control-btn {
+        font-size: 25px;
+        padding: 6px 12px;
+    }
+}
