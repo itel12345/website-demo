@@ -7,42 +7,25 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
     <!-- Ready Go Button -->
     <button id="startButton">READY GO</button>
 
-    <!-- On-screen controls for mobile -->
-<div class="controls">
-    <button class="control-btn big-btn" id="left">⬅</button>
-    <button class="control-btn big-btn" id="right">➡</button>
-</div>
-
+    <!-- On-screen controls -->
+    <div class="controls">
+        <button class="control-btn big-btn" id="left">⬅</button>
+        <button class="control-btn big-btn" id="right">➡</button>
+        <button class="control-btn shoot-btn" id="shoot">🔥</button>
+        <button class="control-btn mute-btn" id="muteBtn" style="margin-left: 100px;">🔇</button>
+    </div>
 
     <canvas id="gameCanvas"></canvas>
-    <p id="shootText" class="shoot-instruction">Press W to shoot</p>
+    <p id="shootText" class="shoot-instruction" style="">Press W to shoot</p>
     <p id="bulletText" class="bullet-info">You have just 5 bullets</p>
-    
-    
-    <script>
-    document.getElementById("startButton").addEventListener("click", function () {
-    document.getElementById("shootText").style.display = "none";
-    document.getElementById("bulletText").style.display = "none";
-});
-        
-    </script>
-    
+
     <div id="hud" class="neon">Speed: <span id="speed">0</span> km/h</div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="game.js"></script>
-    <script>
-        document.getElementById("left").addEventListener("click", () => moveCar(-1));
-        document.getElementById("right").addEventListener("click", () => moveCar(1));
-        
-        document.addEventListener("keydown", (event) => {
-            if (event.key === "ArrowLeft") moveCar(-1);
-            if (event.key === "ArrowRight") moveCar(1);
-        });
-    </script>
+
+        <script src="game.js"></script>
 </body>
 </html>
